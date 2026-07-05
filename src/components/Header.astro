@@ -1,0 +1,109 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-neutral-200/40 dark:border-neutral-800/40 bg-neutral-50/80 dark:bg-neutral-950/80 backdrop-blur-md transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Logo & Brand -->
+    <a href="#top" class="flex items-center group transition-transform duration-200 hover:scale-[1.02]" id="nav-brand">
+      <img id="navbar-logo" src="/logo/logo-dark.png" alt="0xAb Logo" class="h-8 w-auto object-contain" />
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a href="#about" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full">About</a>
+      <a href="#expertise" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full">Expertise</a>
+      <a href="#projects" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full">Projects</a>
+      <a href="#terminal" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full">Interactive Console</a>
+      <a href="#contact" class="px-3.5 py-1.5 rounded-md border border-neutral-900 dark:border-neutral-50 bg-neutral-900 dark:bg-neutral-50 text-neutral-50 dark:text-neutral-950 font-semibold hover:bg-accent hover:border-accent hover:text-neutral-950 dark:hover:bg-accent dark:hover:border-accent dark:hover:text-neutral-950 transition-all duration-300 shadow-sm text-xs">Get In Touch</a>
+      
+      <div class="h-4 w-px bg-neutral-300 dark:bg-neutral-800"></div>
+      <ThemeToggle />
+    </nav>
+
+    <!-- Mobile Action Buttons -->
+    <div class="flex items-center gap-3 md:hidden">
+      <ThemeToggle />
+      <button 
+        id="mobile-menu-toggle" 
+        aria-label="Toggle Mobile Menu"
+        class="p-2 rounded-lg border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200 focus:outline-none"
+      >
+        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/95 dark:bg-neutral-950/95 backdrop-blur-md">
+    <nav class="flex flex-col gap-4 px-4 py-6 text-base font-medium">
+      <a href="#about" class="mobile-nav-link text-neutral-700 dark:text-neutral-300 hover:text-accent dark:hover:text-accent py-2 transition-colors">About</a>
+      <a href="#expertise" class="mobile-nav-link text-neutral-700 dark:text-neutral-300 hover:text-accent dark:hover:text-accent py-2 transition-colors">Expertise</a>
+      <a href="#projects" class="mobile-nav-link text-neutral-700 dark:text-neutral-300 hover:text-accent dark:hover:text-accent py-2 transition-colors">Projects</a>
+      <a href="#terminal" class="mobile-nav-link text-neutral-700 dark:text-neutral-300 hover:text-accent dark:hover:text-accent py-2 transition-colors">Interactive Console</a>
+      <a href="#contact" class="mobile-nav-link text-neutral-700 dark:text-neutral-300 hover:text-accent dark:hover:text-accent py-2 transition-colors">Get In Touch</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  function setupHeader() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const logoImg = document.getElementById('navbar-logo') as HTMLImageElement | null;
+
+    // Dynamically update the logo src based on theme
+    function updateLogoSrc() {
+      if (!logoImg) return;
+      const isDark = document.documentElement.classList.contains('dark');
+      logoImg.src = isDark ? '/logo/logo-white.png' : '/logo/logo-dark.png';
+    }
+
+    updateLogoSrc();
+
+    // Observe changes to document class to detect dark mode toggles
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          updateLogoSrc();
+        }
+      });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+
+    function toggleMenu() {
+      const isHidden = mobileMenu?.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu?.classList.remove('hidden');
+        menuIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+      } else {
+        mobileMenu?.classList.add('hidden');
+        menuIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+      }
+    }
+
+    toggleBtn?.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu?.classList.add('hidden');
+        menuIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+      });
+    });
+  }
+
+  setupHeader();
+  document.addEventListener('astro:after-swap', setupHeader);
+</script>

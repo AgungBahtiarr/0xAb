@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from 'astro:content';
+
+const allProfiles = await getCollection('profile');
+const profileEntry = allProfiles[0];
+if (!profileEntry) throw new Error("Profile content entry not found in src/content/profile/!");
+
+const { Content } = await render(profileEntry);
+const { stats } = profileEntry.data;
+---
+<section id="about" class="py-20 md:py-28 border-b border-neutral-200/30 dark:border-neutral-800/30 relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Title -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16">
+      <div>
+        <span class="font-mono text-xs font-bold text-accent tracking-widest uppercase block mb-2">// 01. ABOUT ME</span>
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-neutral-950 dark:text-neutral-50">
+          Engineering & Administration
+        </h2>
+      </div>
+      <p class="font-mono text-xs text-neutral-400 dark:text-neutral-500 hidden md:block select-none">
+        0xAB // PROFILE_OVERVIEW
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      
+      <!-- Bio / Left -->
+      <div class="lg:col-span-7 space-y-6 text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed">
+        <Content />
+      </div>
+
+      <!-- Stats & Highlights / Right -->
+      <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {stats.map((stat, index) => (
+          <div class="p-6 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 rounded-xl hover:border-accent dark:hover:border-accent transition-all duration-300 group">
+            <div class="font-mono text-accent text-lg font-bold mb-3">0{index + 1} /</div>
+            <h4 class="font-bold text-neutral-950 dark:text-neutral-50 mb-1.5 group-hover:text-accent dark:group-hover:text-accent transition-colors">{stat.title}</h4>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+              {stat.description}
+            </p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+
+  </div>
+</section>

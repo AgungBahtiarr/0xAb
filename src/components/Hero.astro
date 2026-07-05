@@ -1,0 +1,201 @@
+---
+import { getCollection } from 'astro:content';
+
+const allProfiles = await getCollection('profile');
+const profileEntry = allProfiles[0];
+const profile = profileEntry?.data;
+---
+<section id="top" class="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 md:py-24 overflow-hidden border-b border-neutral-200/30 dark:border-neutral-800/30">
+  <!-- Dynamic Background Grid -->
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+  
+  <!-- Glowing Decorative Accent -->
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] bg-accent/10 dark:bg-accent/5 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+    
+    <!-- Left Column: Content -->
+    <div class="lg:col-span-7 flex flex-col items-start text-left space-y-6 sm:space-y-8">
+      
+      <!-- Availability Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm shadow-sm">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+        </span>
+        <span class="font-mono text-xs font-semibold tracking-wide text-neutral-800 dark:text-neutral-300">
+          {profile?.availability || "SYSTEMS_ACTIVE // OPEN FOR PROJECT"}
+        </span>
+      </div>
+
+      <!-- Main Headline -->
+      <div class="space-y-4">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-neutral-950 dark:text-neutral-50 leading-[1.1]">
+          {profile?.name || "Agung Bahtiar"}
+        </h1>
+        <h2 class="text-xl sm:text-2xl font-mono font-bold text-neutral-800 dark:text-neutral-200 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span>[</span>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 via-accent to-neutral-900 dark:from-neutral-100 dark:via-accent dark:to-neutral-100 bg-[size:200%_auto] animate-text-gradient">
+            {profile?.role || "Software Engineer"}
+          </span>
+          <span class="text-neutral-400 dark:text-neutral-600">&amp;</span>
+          <span class="text-neutral-800 dark:text-neutral-200">{profile?.subRole || "System Admin"}</span>
+          <span>]</span>
+        </h2>
+      </div>
+
+      <!-- Description -->
+      <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 max-w-xl leading-relaxed">
+        {profile?.tagline || "Building high-performance backend systems, automated server architectures, and clean web applications. Specialized in bridging the gap between scalable code and robust Linux infrastructures."}
+      </p>
+
+      <!-- Tech Stack Badges / Indicators -->
+      <div class="flex flex-wrap gap-2 sm:gap-3 max-w-lg font-mono text-xs text-neutral-500">
+        <span class="px-2 py-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded">Go</span>
+        <span class="px-2 py-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded">Node.js</span>
+        <span class="px-2 py-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded">Linux</span>
+        <span class="px-2 py-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded">Docker</span>
+        <span class="px-2 py-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded">AWS</span>
+        <span class="px-2 py-1 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded">Nginx</span>
+      </div>
+
+      <!-- Call to Actions -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto font-medium">
+        <a 
+          href="#projects" 
+          class="px-6 py-3 rounded-lg bg-neutral-900 dark:bg-neutral-50 text-neutral-50 dark:text-neutral-950 font-bold hover:bg-accent hover:text-neutral-950 dark:hover:bg-accent dark:hover:text-neutral-950 transition-all duration-300 text-center shadow-lg shadow-neutral-900/10 dark:shadow-neutral-950/30 flex items-center justify-center gap-2 group cursor-pointer"
+        >
+          Explore Projects
+          <svg class="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+          </svg>
+        </a>
+        <a 
+          href="#terminal" 
+          class="px-6 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 text-neutral-800 dark:text-neutral-200 font-mono font-semibold hover:border-accent hover:text-accent dark:hover:border-accent dark:hover:text-accent transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span class="text-accent">&gt;</span> run_console
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Visual Dashboard Mockup -->
+    <div class="lg:col-span-5 w-full flex justify-center">
+      <div class="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-2xl relative font-mono text-xs text-neutral-300 select-none">
+        
+        <!-- Terminal Header -->
+        <div class="bg-neutral-950 px-4 py-3 flex items-center justify-between border-b border-neutral-800">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          </div>
+          <span class="text-[10px] text-neutral-500 tracking-wider">agungb@0xAb:~</span>
+          <div class="w-4"></div>
+        </div>
+
+        <!-- Terminal Tabs -->
+        <div class="bg-neutral-900/50 px-2 flex border-b border-neutral-800">
+          <div class="px-3 py-2 border-r border-neutral-800 border-b-2 border-b-accent bg-neutral-900 text-neutral-100 text-[11px] font-semibold flex items-center cursor-pointer">
+            sysadmin.sh
+          </div>
+          <div class="px-3 py-2 border-r border-neutral-800 text-neutral-500 text-[11px] flex items-center hover:text-neutral-300 transition-colors cursor-pointer">
+            backend.go
+          </div>
+        </div>
+
+        <!-- Terminal Body -->
+        <div class="p-5 space-y-4 min-h-[260px] text-neutral-400">
+          
+          <!-- Command Prompt -->
+          <div>
+            <span class="text-accent">agungb@0xAb</span>:<span class="text-blue-400">~</span>$ ./diagnose_server.sh
+          </div>
+
+          <!-- Output Details -->
+          <div class="space-y-2">
+            <p class="text-neutral-500">[Initializing System Diagnostics...]</p>
+            
+            <div class="flex justify-between items-center">
+              <span>HOST:</span>
+              <span class="text-neutral-100">0xAb.tech</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span>OS:</span>
+              <span class="text-neutral-100">Ubuntu 24.04 LTS</span>
+            </div>
+
+            <!-- CPU bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between">
+                <span>CPU CORES:</span>
+                <span class="text-accent">16% LOAD</span>
+              </div>
+              <div class="h-1.5 w-full bg-neutral-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full w-[16%] animate-[pulse_2s_infinite]"></div>
+              </div>
+            </div>
+
+            <!-- MEM bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between">
+                <span>RAM USAGE:</span>
+                <span class="text-accent">4.2GB / 16GB</span>
+              </div>
+              <div class="h-1.5 w-full bg-neutral-800 rounded-full overflow-hidden">
+                <div class="h-full bg-neutral-100 dark:bg-neutral-300 rounded-full w-[26%]"></div>
+              </div>
+            </div>
+
+            <!-- Server indicators -->
+            <div class="grid grid-cols-3 gap-2 pt-2 text-center text-[10px]">
+              <div class="p-1.5 bg-neutral-950/80 rounded border border-neutral-800">
+                <span class="block text-green-400 font-bold">● ONLINE</span>
+                <span class="text-neutral-500 font-mono">Web Server</span>
+              </div>
+              <div class="p-1.5 bg-neutral-950/80 rounded border border-neutral-800">
+                <span class="block text-green-400 font-bold">● ACTIVE</span>
+                <span class="text-neutral-500 font-mono">Databases</span>
+              </div>
+              <div class="p-1.5 bg-neutral-950/80 rounded border border-neutral-800">
+                <span class="block text-accent font-bold">● LISTENING</span>
+                <span class="text-neutral-500 font-mono">Port :4321</span>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="flex items-center gap-1 text-[11px] pt-1">
+            <span class="text-accent animate-pulse">❚</span>
+            <span class="text-neutral-500 text-[10px]">Press Esc or type 'help' in terminal below</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Custom text gradient animation */
+  @keyframes text-gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .animate-text-gradient {
+    background-size: 200% auto;
+    animation: text-gradient 6s ease infinite;
+  }
+</style>
