@@ -1,0 +1,112 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} // 0xAb Blog`} description={post.data.description}>
+  <Header />
+  
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20 flex-grow w-full">
+    <!-- Back Link -->
+    <div class="mb-10">
+      <a 
+        href="/blog" 
+        class="group inline-flex items-center gap-1.5 font-mono text-xs text-neutral-500 hover:text-accent transition-colors"
+      >
+        <svg class="w-3.5 h-3.5 transform transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"></path>
+        </svg>
+        back_to_logs
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="mb-12 border-b border-neutral-200/50 dark:border-neutral-800/80 pb-8">
+      <div class="font-mono text-xs text-neutral-400 dark:text-neutral-500 mb-2">
+        {post.data.pubDate.toLocaleDateString('en-US', { dateStyle: 'long' })}
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-neutral-950 dark:text-neutral-50 leading-[1.15]">
+        {post.data.title}
+      </h1>
+      <p class="text-neutral-500 dark:text-neutral-400 mt-4 text-base italic leading-relaxed">
+        {post.data.description}
+      </p>
+      
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2 mt-6 font-mono text-[10px] text-neutral-400">
+        {post.data.tags.map((tag) => (
+          <span class="px-2 py-0.5 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/60 rounded">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    <!-- Rich Article Content -->
+    <article class="prose prose-neutral dark:prose-invert max-w-none text-neutral-800 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
+      <div class="space-y-6">
+        <Content />
+      </div>
+    </article>
+
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  /* Styling markdown headings to match the premium monochromatic look */
+  .prose h2 {
+    @apply text-xl font-black mt-10 mb-4 text-neutral-950 dark:text-neutral-50 font-sans border-b border-neutral-200/50 dark:border-neutral-800/80 pb-2;
+  }
+  .prose h3 {
+    @apply text-lg font-bold mt-8 mb-3 text-neutral-900 dark:text-neutral-100 font-sans;
+  }
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+  .prose ul {
+    @apply list-disc list-inside mb-4 pl-4 space-y-1.5;
+  }
+  .prose ol {
+    @apply list-decimal list-inside mb-4 pl-4 space-y-1.5;
+  }
+  .prose code {
+    @apply font-mono text-xs px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded text-accent-dark dark:text-accent;
+  }
+  
+  /* Shiki syntax highlighting container overrides */
+  .prose pre {
+    @apply p-4 border border-neutral-800 bg-neutral-950 rounded-xl overflow-x-auto my-6 font-mono text-xs shadow-inner;
+  }
+  .prose pre code {
+    @apply p-0 bg-transparent border-0 rounded-none text-neutral-200;
+  }
+
+  @media (min-width: 640px) {
+    .prose h2 {
+      @apply text-2xl;
+    }
+    .prose h3 {
+      @apply text-xl;
+    }
+    .prose pre {
+      @apply text-sm;
+    }
+  }
+</style>
