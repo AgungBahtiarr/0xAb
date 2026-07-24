@@ -70,7 +70,7 @@ const profile = profileEntry?.data;
             </div>
             <div>
               <h4 class="font-bold text-neutral-900 dark:text-neutral-50 mb-1 group-hover:text-accent transition-colors">GitHub</h4>
-              <p class="text-xs text-neutral-500 dark:text-neutral-400">@0xab // Repos & systems</p>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400">@{profile.github.split('/').pop()} // Repos & systems</p>
             </div>
           </a>
         )}
@@ -124,6 +124,26 @@ const profile = profileEntry?.data;
               <p class="text-xs text-neutral-500 dark:text-neutral-400">Remote contracts & roles</p>
             </div>
           </div>
+        )}
+
+        <!-- Twitter/X Card -->
+        {profile?.twitter && (
+          <a 
+            href={profile.twitter} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="p-6 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/40 rounded-xl hover:border-accent dark:hover:border-accent transition-all duration-300 group flex items-start gap-4 cursor-pointer sm:col-span-2"
+          >
+            <div class="p-3 bg-neutral-100 dark:bg-neutral-900 rounded-lg text-neutral-900 dark:text-neutral-50 group-hover:bg-accent group-hover:text-neutral-950 transition-colors">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-neutral-900 dark:text-neutral-50 mb-1 group-hover:text-accent transition-colors">Twitter / X</h4>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400">@{profile.twitter.split('/').pop()} // Updates & Tech thoughts</p>
+            </div>
+          </a>
         )}
 
       </div>

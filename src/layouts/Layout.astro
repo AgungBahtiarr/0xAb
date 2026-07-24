@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { getCollection } from 'astro:content';
+import { SEO } from 'astro-seo';
 
 interface Props {
   title?: string;
@@ -15,6 +16,9 @@ const {
   title = profile ? `${profile.name} // ${profile.role} & ${profile.subRole}` : "0xAb // Agung Bahtiar - Software Engineer & System Administrator", 
   description = profile?.tagline || "Portfolio of Agung Bahtiar (0xAb), a Software Engineer and System Administrator."
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
+const logoURL = new URL("/logo/logo-dark.png", Astro.url).toString();
 ---
 
 <!doctype html>
@@ -23,29 +27,35 @@ const {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        <!-- Favicon -->
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" href="/favicon.ico" />
-        
-        <!-- SEO Meta Tags -->
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="generator" content={Astro.generator} />
-        <meta name="author" content="Agung Bahtiar" />
-        
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={Astro.url} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="/logo/logo-dark.png" />
-
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={Astro.url} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content="/logo/logo-dark.png" />
+        <SEO
+            title={title}
+            description={description}
+            canonical={canonicalURL.toString()}
+            openGraph={{
+                basic: {
+                    title: title,
+                    type: "website",
+                    image: logoURL,
+                    url: Astro.url.toString(),
+                }
+            }}
+            twitter={{
+                card: "summary_large_image",
+                title: title,
+                description: description,
+                image: logoURL,
+            }}
+            extend={{
+                meta: [
+                    { name: "generator", content: Astro.generator },
+                    { name: "author", content: "Agung Bahtiar" }
+                ],
+                link: [
+                    { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+                    { rel: "icon", href: "/favicon.ico" }
+                ]
+            }}
+        />
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -15,6 +15,7 @@ const profileData = {
   email: profile?.email || "contact@0xab.tech",
   github: profile?.github || "https://github.com/0xab",
   linkedin: profile?.linkedin || "#",
+  twitter: profile?.twitter || "",
   location: profile?.location || "Indonesia // GMT+7",
   skills: "Go, TypeScript, JavaScript, Python, Node.js, Linux (Ubuntu/Debian), Bash, Docker, Nginx, PostgreSQL, Redis"
 };
@@ -187,6 +188,7 @@ const projectsData = sortedProjects.map((p) => ({
   <p>• GitHub:   <a href="${profileData.github}" target="_blank" class="text-accent underline hover:text-white transition-colors">${profileData.github.replace('https://', '')}</a></p>
   <p>• Email:    <a href="mailto:${profileData.email}" class="text-accent underline hover:text-white transition-colors">${profileData.email}</a></p>
   <p>• LinkedIn: <a href="${profileData.linkedin}" target="_blank" class="text-accent underline hover:text-white transition-colors">${profileData.linkedin.replace('https://', '')}</a></p>
+  ${profileData.twitter ? `<p>• Twitter/X: <a href="${profileData.twitter}" target="_blank" class="text-accent underline hover:text-white transition-colors">${profileData.twitter.replace('https://', '').replace('www.', '')}</a></p>` : ''}
 </div>`;
 
     const emailOutput = `

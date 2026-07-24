@@ -15,6 +15,7 @@ const profile = defineCollection({
     email: z.string(),
     github: z.string(),
     linkedin: z.string(),
+    twitter: z.string().optional(),
     stats: z.array(z.object({
       title: z.string(),
       description: z.string(),
