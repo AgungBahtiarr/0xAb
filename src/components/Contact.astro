@@ -1,8 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const allProfiles = await getCollection('profile');
-const profileEntry = allProfiles[0];
+let profileEntry = allProfiles.find(p => p.id === `${lang}/about`);
+if (!profileEntry) {
+  profileEntry = allProfiles.find(p => p.id === 'en/about') || allProfiles[0];
+}
 const profile = profileEntry?.data;
 ---
 <section id="contact" class="py-20 md:py-28 relative">
@@ -14,9 +21,9 @@ const profile = profileEntry?.data;
     <!-- Section Title -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-16">
       <div>
-        <span class="font-mono text-xs font-bold text-accent tracking-widest uppercase block mb-2">// 04. CONNECT</span>
+        <span class="font-mono text-xs font-bold text-accent tracking-widest uppercase block mb-2">// 04. {t('contact.title')}</span>
         <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-neutral-950 dark:text-neutral-50">
-          Get In Touch
+          {t('contact.subtitle')}
         </h2>
       </div>
       <p class="font-mono text-xs text-neutral-400 dark:text-neutral-500 hidden md:block select-none">
@@ -30,10 +37,10 @@ const profile = profileEntry?.data;
       <!-- Copy / Call to Action -->
       <div class="lg:col-span-6 space-y-6">
         <h3 class="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-          Have an interesting project in mind or need server configurations automated?
+          {t('contact.desc')}
         </h3>
         <p class="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed">
-          I'm always open to discussing new software development pipelines, API scaling, system setups, or general DevOps automation. Drop me a line, and let's build something robust together.
+          {t('contact.subDesc')}
         </p>
         
         <!-- Big email display -->

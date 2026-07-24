@@ -1,8 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const allProfiles = await getCollection('profile');
-const profileEntry = allProfiles[0];
+let profileEntry = allProfiles.find(p => p.id === `${lang}/about`);
+if (!profileEntry) {
+  profileEntry = allProfiles.find(p => p.id === 'en/about') || allProfiles[0];
+}
 const profile = profileEntry?.data;
 
 const allProjects = await getCollection('projects');
@@ -32,12 +39,12 @@ const projectsData = sortedProjects.map((p) => ({
     
     <!-- Title Info -->
     <div class="mb-8 text-center sm:text-left">
-      <span class="text-xs font-bold text-accent tracking-widest uppercase block mb-2">// INTERACTIVE ENVIRONMENT</span>
+      <span class="text-xs font-bold text-accent tracking-widest uppercase block mb-2">// {t('terminal.title')}</span>
       <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
-        0xAb Command Line Interface
+        {t('terminal.subtitle')}
       </h2>
       <p class="text-xs text-neutral-400 mt-2 font-sans">
-        Click inside the terminal block below and run commands directly to query this server.
+        {t('terminal.clickToRun')}
       </p>
     </div>
 

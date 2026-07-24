@@ -6,13 +6,19 @@ import '@fontsource-variable/outfit';
 import '@fontsource-variable/jetbrains-mono';
 import '@fontsource-variable/jetbrains-mono/wght-italic.css';
 
+import { getLangFromUrl } from '../i18n/utils';
+
 interface Props {
   title?: string;
   description?: string;
 }
 
+const lang = getLangFromUrl(Astro.url);
 const allProfiles = await getCollection('profile');
-const profileEntry = allProfiles[0];
+let profileEntry = allProfiles.find(p => p.id === `${lang}/about`);
+if (!profileEntry) {
+  profileEntry = allProfiles.find(p => p.id === 'en/about') || allProfiles[0];
+}
 const profile = profileEntry?.data;
 
 const { 
@@ -25,7 +31,7 @@ const logoURL = new URL("/logo/logo-dark.png", Astro.url).toString();
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

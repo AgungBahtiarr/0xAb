@@ -11,6 +11,13 @@ export default defineConfig({
   build: {
     inlineStylesheets: "always",
   },
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "id"],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
 
   vite: {
     plugins: [tailwindcss()],

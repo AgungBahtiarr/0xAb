@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import About from '../../components/About.astro';
+import Expertise from '../../components/Expertise.astro';
+import Projects from '../../components/Projects.astro';
+import Terminal from '../../components/Terminal.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout>
+  <!-- Main layout container -->
+  <Header />
+  
+  <main class="flex-grow">
+    <!-- Hero / Intro -->
+    <Hero />
+
+    <!-- Profile Overview / About -->
+    <About />
+
+    <!-- Core Skills / Expertise -->
+    <Expertise />
+
+    <!-- Projects Grid -->
+    <Projects />
+
+    <!-- Interactive CLI Terminal Widget -->
+    <Terminal />
+
+    <!-- Contact & Connect -->
+    <Contact />
+  </main>
+
+  <Footer />
+</Layout>

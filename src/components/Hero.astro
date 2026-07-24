@@ -1,8 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const allProfiles = await getCollection('profile');
-const profileEntry = allProfiles[0];
+let profileEntry = allProfiles.find(p => p.id === `${lang}/about`);
+if (!profileEntry) {
+  profileEntry = allProfiles.find(p => p.id === 'en/about') || allProfiles[0];
+}
 const profile = profileEntry?.data;
 ---
 <section id="top" class="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 md:py-24 overflow-hidden border-b border-neutral-200/30 dark:border-neutral-800/30">
@@ -24,7 +32,7 @@ const profile = profileEntry?.data;
           <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
         </span>
         <span class="font-mono text-xs font-semibold tracking-wide text-neutral-800 dark:text-neutral-300">
-          {profile?.availability || "SYSTEMS_ACTIVE // OPEN FOR PROJECT"}
+          {profile?.availability || (lang === 'id' ? "SISTEM_AKTIF // SIAP UNTUK PROYEK" : "SYSTEMS_ACTIVE // OPEN FOR PROJECT")}
         </span>
       </div>
 
@@ -46,7 +54,7 @@ const profile = profileEntry?.data;
 
       <!-- Description -->
       <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 max-w-xl leading-relaxed">
-        {profile?.tagline || "Building high-performance backend systems, automated server architectures, and clean web applications. Specialized in bridging the gap between scalable code and robust Linux infrastructures."}
+        {profile?.tagline || (lang === 'id' ? "Membangun sistem backend berkinerja tinggi, arsitektur server terotomatisasi, dan aplikasi web yang bersih." : "Building high-performance backend systems, automated server architectures, and clean web applications.")}
       </p>
 
       <!-- Tech Stack Badges / Indicators -->
@@ -62,19 +70,19 @@ const profile = profileEntry?.data;
       <!-- Call to Actions -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto font-medium">
         <a 
-          href="#projects" 
+          href={translatePath('#projects')} 
           class="px-6 py-3 rounded-lg bg-neutral-900 dark:bg-neutral-50 text-neutral-50 dark:text-neutral-950 font-bold hover:bg-accent hover:text-neutral-950 dark:hover:bg-accent dark:hover:text-neutral-950 transition-all duration-300 text-center shadow-lg shadow-neutral-900/10 dark:shadow-neutral-950/30 flex items-center justify-center gap-2 group cursor-pointer"
         >
-          Explore Projects
+          {t('hero.exploreProjects')}
           <svg class="w-4 h-4 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
           </svg>
         </a>
         <a 
-          href="#terminal" 
+          href={translatePath('#terminal')} 
           class="px-6 py-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 text-neutral-800 dark:text-neutral-200 font-mono font-semibold hover:border-accent hover:text-accent dark:hover:border-accent dark:hover:text-accent transition-all duration-300 text-center flex items-center justify-center gap-2 cursor-pointer"
         >
-          <span class="text-accent">&gt;</span> run_console
+          <span class="text-accent">&gt;</span> {t('hero.runConsole')}
         </a>
       </div>
 
