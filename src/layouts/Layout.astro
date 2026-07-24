@@ -28,6 +28,34 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
 const logoURL = new URL("/logo/logo-dark.png", Astro.url).toString();
+
+// JSON-LD Structured Data to tell Google search engines exactly who you are
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": profile?.name || "Agung Bahtiar",
+  "alternateName": "0xAb",
+  "url": Astro.site?.toString() || "https://0xab.my.id",
+  "image": new URL("/logo/logo-dark.png", Astro.site || Astro.url).toString(),
+  "sameAs": [
+    profile?.twitter,
+    profile?.linkedin,
+    profile?.github
+  ].filter(Boolean),
+  "jobTitle": profile ? `${profile.role} & ${profile.subRole}` : "Software Engineer & System Administrator",
+  "description": description,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Banyuwangi",
+    "addressRegion": "Jawa Timur",
+    "addressCountry": "ID"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Politeknik Negeri Banyuwangi",
+    "alternateName": "Poliwangi"
+  }
+};
 ---
 
 <!doctype html>
@@ -57,7 +85,11 @@ const logoURL = new URL("/logo/logo-dark.png", Astro.url).toString();
             extend={{
                 meta: [
                     { name: "generator", content: Astro.generator },
-                    { name: "author", content: "Agung Bahtiar" }
+                    { name: "author", content: "Agung Bahtiar" },
+                    { 
+                        name: "keywords", 
+                        content: "Agung Bahtiar, 0xAb, Agung Bahtiar Poliwangi, Agung Bahtiar Banyuwangi, Agung Bahtiar Laros, Politeknik Negeri Banyuwangi, Poliwangi, Banyuwangi, Agung Bahtiar Portfolio, Agung Bahtiar Software Engineer, Agung Bahtiar SysAdmin, Software Engineer Indonesia, System Administrator Indonesia, DevOps, Linux System Administrator, Web Developer" 
+                    }
                 ],
                 link: [
                     { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
@@ -65,6 +97,9 @@ const logoURL = new URL("/logo/logo-dark.png", Astro.url).toString();
                 ]
             }}
         />
+
+        <!-- JSON-LD Structured Data for Search Engine Optimization -->
+        <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 
 
 
