@@ -1,53 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25">
-    <style>
-        .logo-text { fill: #171717; }
-        .logo-accent { fill: #FFD93D; }
-        @media (prefers-color-scheme: dark) {
-            .logo-text { fill: #FFFFFF; }
-        }
-    </style>
-    <rect x="1" y="9" width="3" height="1" class="logo-text" />
-    <rect x="14" y="9" width="1" height="1" class="logo-text" />
-    <rect x="18" y="9" width="1" height="1" class="logo-text" />
-    <rect x="0" y="10" width="1" height="1" class="logo-text" />
-    <rect x="4" y="10" width="1" height="1" class="logo-text" />
-    <rect x="13" y="10" width="1" height="1" class="logo-text" />
-    <rect x="15" y="10" width="1" height="1" class="logo-text" />
-    <rect x="18" y="10" width="1" height="1" class="logo-text" />
-    <rect x="0" y="11" width="1" height="1" class="logo-text" />
-    <rect x="4" y="11" width="1" height="1" class="logo-text" />
-    <rect x="6" y="11" width="1" height="1" class="logo-accent" />
-    <rect x="10" y="11" width="1" height="1" class="logo-accent" />
-    <rect x="12" y="11" width="1" height="1" class="logo-text" />
-    <rect x="16" y="11" width="1" height="1" class="logo-text" />
-    <rect x="18" y="11" width="4" height="1" class="logo-text" />
-    <rect x="0" y="12" width="1" height="1" class="logo-text" />
-    <rect x="4" y="12" width="1" height="1" class="logo-text" />
-    <rect x="7" y="12" width="1" height="1" class="logo-accent" />
-    <rect x="9" y="12" width="1" height="1" class="logo-accent" />
-    <rect x="12" y="12" width="1" height="1" class="logo-text" />
-    <rect x="16" y="12" width="1" height="1" class="logo-text" />
-    <rect x="18" y="12" width="1" height="1" class="logo-text" />
-    <rect x="22" y="12" width="1" height="1" class="logo-text" />
-    <rect x="0" y="13" width="1" height="1" class="logo-text" />
-    <rect x="4" y="13" width="1" height="1" class="logo-text" />
-    <rect x="8" y="13" width="1" height="1" class="logo-accent" />
-    <rect x="12" y="13" width="5" height="1" class="logo-text" />
-    <rect x="18" y="13" width="1" height="1" class="logo-text" />
-    <rect x="22" y="13" width="1" height="1" class="logo-text" />
-    <rect x="0" y="14" width="1" height="1" class="logo-text" />
-    <rect x="4" y="14" width="1" height="1" class="logo-text" />
-    <rect x="7" y="14" width="1" height="1" class="logo-accent" />
-    <rect x="9" y="14" width="1" height="1" class="logo-accent" />
-    <rect x="12" y="14" width="1" height="1" class="logo-text" />
-    <rect x="16" y="14" width="1" height="1" class="logo-text" />
-    <rect x="18" y="14" width="1" height="1" class="logo-text" />
-    <rect x="22" y="14" width="1" height="1" class="logo-text" />
-    <rect x="1" y="15" width="3" height="1" class="logo-text" />
-    <rect x="6" y="15" width="1" height="1" class="logo-accent" />
-    <rect x="10" y="15" width="1" height="1" class="logo-accent" />
-    <rect x="12" y="15" width="1" height="1" class="logo-text" />
-    <rect x="16" y="15" width="1" height="1" class="logo-text" />
-    <rect x="19" y="15" width="3" height="1" class="logo-text" />
-    <rect x="24" y="15" width="1" height="1" class="logo-accent" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    :root {
+      --bg: #111111;
+      --fg: #f6f5f0;
+      --mute: #8e8d85;
+      --line: #262626;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #f6f5f0;
+        --fg: #111111;
+        --mute: #6e6d67;
+        --line: #dcd8cf;
+      }
+    }
+    .badge { fill: var(--bg); }
+    .border { stroke: var(--line); stroke-width: 1; fill: none; }
+    text {
+      font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+    .fg { fill: var(--fg); }
+    .sub { fill: var(--mute); font-weight: 500; }
+  </style>
+  <rect class="badge" width="32" height="32" rx="4"/>
+  <rect class="border" x="0.5" y="0.5" width="31" height="31" rx="3.5"/>
+  <text x="16" y="20.5" text-anchor="middle">
+    <tspan class="fg">0x</tspan><tspan class="sub">Ab</tspan>
+  </text>
 </svg>
