@@ -5,37 +5,23 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 ---
-<footer class="mt-auto border-t border-neutral-200 dark:border-neutral-800/80 bg-neutral-100/50 dark:bg-neutral-950 text-neutral-500 font-mono text-[11px]">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-    
-    <!-- Left: Brand / Copyright -->
-    <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
-      <div class="h-6 flex items-center justify-center">
-        <img src="/logo/logo-dark.png" alt="0xAb Logo" class="h-6 w-auto object-contain dark:hidden" width="90" height="24" loading="lazy" decoding="async" />
-        <img src="/logo/logo-white.png" alt="0xAb Logo" class="h-6 w-auto object-contain hidden dark:block" width="90" height="24" loading="lazy" decoding="async" />
-      </div>
-      <span class="hidden sm:inline text-neutral-300 dark:text-neutral-800">|</span>
-      <span>© 2026 Agung Bahtiar. All rights reserved.</span>
-    </div>
 
-    <!-- Right: Stats / Technologies -->
-    <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-right">
-      <div class="flex items-center gap-1.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-        <span>Astro v7.0 // Tailwind v4.0</span>
-      </div>
-      <span class="hidden sm:inline text-neutral-300 dark:text-neutral-800">|</span>
-      <a 
-        href={translatePath('#top')} 
-        class="hover:text-accent transition-colors flex items-center gap-1 group"
-        aria-label="Back to Top"
-      >
-        {t('footer.backToTop')} 
-        <svg class="w-3.5 h-3.5 transform transition-transform group-hover:-translate-y-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-        </svg>
-      </a>
-    </div>
-
+<footer>
+  <div class="wrap cap">
+    <span>{t('footer.colophon')}</span>
+    <a href={translatePath('#top')}>{t('footer.backToTop')}</a>
   </div>
 </footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 0 32px;
+  }
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+  }
+</style>

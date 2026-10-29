@@ -20,99 +20,130 @@ const { Content } = await render(post);
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
+
+const formattedDate = post.data.pubDate.toISOString().slice(0, 10);
 ---
 
 <Layout title={`${post.data.title} // Blog 0xAb`} description={post.data.description}>
   <Header />
   
-  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20 flex-grow w-full">
-    <!-- Back Link -->
-    <div class="mb-10">
-      <a 
-        href={translatePath('/blog')} 
-        class="group inline-flex items-center gap-1.5 font-mono text-xs text-neutral-500 hover:text-accent transition-colors"
-      >
-        <svg class="w-3.5 h-3.5 transform transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"></path>
-        </svg>
-        {lang === 'id' ? 'kembali_ke_daftar_log' : 'back_to_logs'}
-      </a>
-    </div>
+  <main id="top">
+    <article class="wrap row">
+      <aside>
+        <span class="cap">// 0XAB LOG</span>
+        <div class="mt-4">
+          <a href={translatePath('/blog')} class="cap">&larr; {lang === 'id' ? 'Daftar Log' : 'All logs'}</a>
+        </div>
+        <div class="post-sidebar-meta">
+          <div class="cap mute">TANGGAL</div>
+          <div class="cap text-ink">{formattedDate}</div>
+          <div class="cap mute mt-4">TAGS</div>
+          <div class="cap text-ink">{post.data.tags.map((t: string) => `#${t}`).join(' ')}</div>
+        </div>
+      </aside>
 
-    <!-- Article Header -->
-    <header class="mb-12 border-b border-neutral-200/50 dark:border-neutral-800/80 pb-8">
-      <div class="font-mono text-xs text-neutral-400 dark:text-neutral-500 mb-2">
-        {post.data.pubDate.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', { dateStyle: 'long' })}
-      </div>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-neutral-950 dark:text-neutral-50 leading-[1.15]">
-        {post.data.title}
-      </h1>
-      <p class="text-neutral-500 dark:text-neutral-400 mt-4 text-base italic leading-relaxed">
-        {post.data.description}
-      </p>
-      
-      <!-- Tags -->
-      <div class="flex flex-wrap gap-2 mt-6 font-mono text-[10px] text-neutral-400">
-        {post.data.tags.map((tag) => (
-          <span class="px-2 py-0.5 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/60 rounded">
-            #{tag}
-          </span>
-        ))}
-      </div>
-    </header>
+      <div>
+        <header class="article-header">
+          <h1 class="article-title">{post.data.title}</h1>
+          <p class="mute article-lead">{post.data.description}</p>
+        </header>
 
-    <!-- Rich Article Content -->
-    <article class="prose prose-neutral dark:prose-invert max-w-none text-neutral-800 dark:text-neutral-300 leading-relaxed text-sm sm:text-base">
-      <div class="space-y-6">
-        <Content />
+        <div class="article-content">
+          <Content />
+        </div>
       </div>
     </article>
-
   </main>
   
   <Footer />
 </Layout>
 
-<style is:global>
-  @reference "../../../styles/global.css";
-
-  /* Styling markdown headings to match the premium monochromatic look */
-  .prose h2 {
-    @apply text-xl font-black mt-10 mb-4 text-neutral-950 dark:text-neutral-50 font-sans border-b border-neutral-200/50 dark:border-neutral-800/80 pb-2;
+<style>
+  .post-sidebar-meta {
+    margin-top: 32px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
   }
-  .prose h3 {
-    @apply text-lg font-bold mt-8 mb-3 text-neutral-900 dark:text-neutral-100 font-sans;
+  .article-header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+    margin-bottom: 32px;
   }
-  .prose p {
-    @apply mb-4 leading-relaxed;
+  .article-title {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
-  .prose ul {
-    @apply list-disc list-inside mb-4 pl-4 space-y-1.5;
+  .article-lead {
+    max-width: 64ch;
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 24px;
   }
-  .prose ol {
-    @apply list-decimal list-inside mb-4 pl-4 space-y-1.5;
+  .article-content {
+    max-width: 68ch;
+    line-height: 26px;
   }
-  .prose code {
-    @apply font-mono text-xs px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded text-accent-dark dark:text-accent;
+  .article-content :global(h2) {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
   }
-  
-  /* Shiki syntax highlighting container overrides */
-  .prose pre {
-    @apply p-4 border border-neutral-800 bg-neutral-950 rounded-xl overflow-x-auto my-6 font-mono text-xs shadow-inner;
+  .article-content :global(h3) {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 32px;
+    margin-bottom: 12px;
   }
-  .prose pre code {
-    @apply p-0 bg-transparent border-0 rounded-none text-neutral-200;
+  .article-content :global(p) {
+    margin-bottom: 20px;
   }
-
-  @media (min-width: 640px) {
-    .prose h2 {
-      @apply text-2xl;
-    }
-    .prose h3 {
-      @apply text-xl;
-    }
-    .prose pre {
-      @apply text-sm;
+  .article-content :global(ul) {
+    list-style-type: disc;
+    list-style-position: inside;
+    margin-bottom: 20px;
+    padding-left: 8px;
+  }
+  .article-content :global(ol) {
+    list-style-type: decimal;
+    list-style-position: inside;
+    margin-bottom: 20px;
+    padding-left: 8px;
+  }
+  .article-content :global(li) {
+    margin-bottom: 6px;
+  }
+  .article-content :global(code) {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 2px 6px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+  }
+  .article-content :global(pre) {
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
+    overflow-x: auto;
+    margin: 24px 0;
+    font-size: 13px;
+    line-height: 20px;
+  }
+  .article-content :global(pre code) {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  @media (max-width: 640px) {
+    .article-title {
+      font-size: 26px;
+      line-height: 34px;
     }
   }
 </style>

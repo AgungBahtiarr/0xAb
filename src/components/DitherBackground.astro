@@ -1,0 +1,132 @@
+---
+// DitherBackground.astro - Isolated Bayer 4x4 ordered dither background canvas
+---
+<canvas id="lines" aria-hidden="true"></canvas>
+
+<style>
+  #lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: min(100vh, 880px);
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(#000 45%, transparent);
+    mask-image: linear-gradient(#000 45%, transparent);
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var cv = document.getElementById("lines");
+  if (!cv) return;
+  var R = document.documentElement;
+  var mo = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cx = cv.getContext("2d"), W = 0, H = 0, CS = 4, gw = 1, gh = 1;
+  var off = document.createElement("canvas"), ox = off.getContext("2d");
+  var img = null, tx = 0, ty = 0, mx = 0, my = 0;
+  var B = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+  var vis = true, raf = 0, t0 = performance.now();
+
+  function size() {
+    var r = cv.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width));
+    H = Math.max(1, Math.round(r.height));
+    cv.width = W;
+    cv.height = H;
+    if (cx) cx.imageSmoothingEnabled = false;
+    gw = Math.ceil(W / CS);
+    gh = Math.ceil(H / CS);
+    off.width = gw;
+    off.height = gh;
+    if (ox) img = ox.createImageData(gw, gh);
+    tx = mx = gw * 0.75;
+    ty = my = gh * 0.3;
+  }
+
+  function getInkRgb() {
+    var ink = getComputedStyle(R).getPropertyValue("--ink").trim();
+    var m = /^#([0-9a-f]{6})$/i.exec(ink);
+    if (m) {
+      var v = parseInt(m[1], 16);
+      return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+    }
+    var rgbMatch = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(ink);
+    if (rgbMatch) {
+      return [+rgbMatch[1], +rgbMatch[2], +rgbMatch[3]];
+    }
+    return [22, 22, 22];
+  }
+
+  function draw(now) {
+    if (!img || !cx || !ox) return;
+    var t = now - t0, i = 0;
+    var rgb = getInkRgb();
+    var r = rgb[0], g = rgb[1], b = rgb[2];
+    var d = img.data;
+    mx += (tx - mx) * 0.08;
+    my += (ty - my) * 0.08;
+
+    for (var y = 0; y < gh; y++) {
+      for (var x = 0; x < gw; x++, i += 4) {
+        var f = 0.5 + 0.22 * Math.sin(x * 0.07 + t * 0.0007) + 0.2 * Math.sin(y * 0.09 - t * 0.0006 + Math.sin(x * 0.04 + t * 0.0003) * 2) + 0.1 * Math.sin((x + y) * 0.05 + t * 0.0004);
+        var dx = x - mx, dy = y - my;
+        f *= 0.05 + 0.95 * (x / gw) * (x / gw);
+        f += 0.3 * Math.exp(-(dx * dx + dy * dy) / 260);
+        var on = f - 0.32 > B[(y & 3) * 4 + (x & 3)] / 16;
+        d[i] = r;
+        d[i + 1] = g;
+        d[i + 2] = b;
+        d[i + 3] = on ? 255 : 0;
+      }
+    }
+    ox.putImageData(img, 0, 0);
+    cx.clearRect(0, 0, W, H);
+    cx.globalAlpha = 0.2;
+    cx.drawImage(off, 0, 0, gw, gh, 0, 0, gw * CS, gh * CS);
+  }
+
+  var last = 0;
+  function loop(n) {
+    if (n - last >= 33) {
+      last = n;
+      draw(n);
+    }
+    raf = vis && mo ? requestAnimationFrame(loop) : 0;
+  }
+
+  size();
+  draw(performance.now());
+
+  if (window.ResizeObserver) {
+    new ResizeObserver(function () {
+      size();
+      if (!mo) draw(performance.now());
+    }).observe(cv);
+  }
+
+  if (mo) {
+    window.addEventListener("pointermove", function (e) {
+      var r = cv.getBoundingClientRect();
+      tx = (e.clientX - r.left) / CS;
+      ty = (e.clientY - r.top) / CS;
+    });
+
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        if (vis && !raf) raf = requestAnimationFrame(loop);
+      }).observe(cv);
+    } else {
+      raf = requestAnimationFrame(loop);
+    }
+  }
+
+  // Redraw when theme changes
+  var observer = new MutationObserver(function () {
+    draw(performance.now());
+  });
+  observer.observe(R, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
