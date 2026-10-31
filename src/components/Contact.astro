@@ -69,5 +69,18 @@ const linkedinHandle = profile?.linkedin ? profile.linkedin.replace(/^https?:\/\
   }
   .prose {
     max-width: 64ch;
+    line-height: 26px;
+    overflow-wrap: break-word;
+  }
+  @media (max-width: 640px) {
+    h2 {
+      font-size: 20px;
+      line-height: 28px;
+      margin-bottom: 16px;
+    }
+    .prose {
+      font-size: 14px;
+      line-height: 24px;
+    }
   }
 </style>

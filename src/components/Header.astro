@@ -11,9 +11,10 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
 ---
 
 <header>
-  <div class="wrap">
+  <div class="wrap header-bar">
     <a class="brand" href={translatePath('#top')}>Agung Bahtiar</a>
-    <nav aria-label="Sections">
+    
+    <nav id="desktop-nav" aria-label="Sections">
       <a href={translatePath('#about')}>{t('nav.about')}</a>
       <a href={translatePath('#expertise')}>{t('nav.expertise')}</a>
       <a href={translatePath('#projects')}>{t('nav.projects')}</a>
@@ -21,6 +22,7 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
       <a href={translatePath('/blog')}>{t('nav.blog')}</a>
       <a href={translatePath('#contact')}>{t('nav.contact')}</a>
     </nav>
+    
     <div class="ctl">
       <span class="cap" id="clock" aria-label={t('header.clockAria')}>WIB --:--</span>
       <span class="cap lang-toggle" aria-label="Language">
@@ -29,43 +31,63 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
         <a href={idUrl} class={lang === 'id' ? 'active-lang' : 'mute'}>ID</a>
       </span>
       <button id="theme" type="button" aria-label={t('header.changePaper')}>Light</button>
+      <button id="menu-toggle" type="button" class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">// MENU</button>
     </div>
   </div>
+
+  <!-- Mobile Collapsible Menu -->
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" style="display: none;">
+    <div class="wrap mobile-links">
+      <a href={translatePath('#about')} class="m-link">// 01 {t('nav.about')}</a>
+      <a href={translatePath('#expertise')} class="m-link">// 02 {t('nav.expertise')}</a>
+      <a href={translatePath('#projects')} class="m-link">// 03 {t('nav.projects')}</a>
+      <a href={translatePath('#console')} class="m-link">// 04 {t('nav.console')}</a>
+      <a href={translatePath('/blog')} class="m-link">// 05 {t('nav.blog')}</a>
+      <a href={translatePath('#contact')} class="m-link">// 06 {t('nav.contact')}</a>
+    </div>
+  </nav>
 </header>
 
 <style>
   header {
     position: sticky;
     top: env(safe-area-inset-top, 0px);
-    z-index: 20;
+    z-index: 50;
     background: var(--paper);
     border-bottom: 1px solid var(--line);
+    width: 100%;
   }
-  header .wrap {
+  .header-bar {
     display: flex;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
+    gap: 16px;
     min-height: 48px;
   }
   header .brand {
     font-weight: 500;
     text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+    letter-spacing: -0.01em;
   }
-  nav {
+  #desktop-nav {
     display: flex;
-    gap: 24px;
+    gap: 20px;
     margin-left: auto;
   }
-  nav a {
+  #desktop-nav a {
     text-decoration: none;
+    font-size: 13px;
   }
-  nav a:hover {
+  #desktop-nav a:hover {
     text-decoration: none;
   }
   .ctl {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
+    white-space: nowrap;
   }
   .lang-toggle {
     display: inline-flex;
@@ -84,32 +106,83 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
     color: inherit;
     background: none;
     border: 1px solid var(--line);
-    padding: 0 12px;
-    height: 32px;
+    padding: 0 10px;
+    height: 30px;
     cursor: pointer;
+    font-size: 12px;
+    line-height: 28px;
+    transition: background 0.15s, color 0.15s;
   }
   button:hover {
     background: var(--ink);
     color: var(--paper);
   }
-  @media (max-width: 760px) {
-    header .wrap {
-      flex-wrap: wrap;
-      gap: 0 16px;
+  
+  .mobile-toggle {
+    display: none;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .mobile-nav {
+    display: none;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+    padding-bottom: 12px;
+  }
+  .m-link {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--ink);
+    transition: padding-left 0.15s;
+  }
+  .m-link:last-child {
+    border-bottom: none;
+  }
+  .m-link:hover {
+    padding-left: 6px;
+    background: transparent;
+  }
+
+  @media (max-width: 768px) {
+    #desktop-nav {
+      display: none;
+    }
+    #clock {
+      display: none;
+    }
+    .mobile-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-bar {
       padding-top: 8px;
       padding-bottom: 8px;
     }
     .ctl {
-      margin-left: auto;
+      gap: 10px;
     }
-    nav {
-      order: 3;
-      width: 100%;
-      margin: 0;
-      gap: 16px;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-top: 4px;
+  }
+
+  @media (max-width: 440px) {
+    .ctl {
+      gap: 8px;
+    }
+    header .brand {
+      font-size: 13px;
+    }
+    button {
+      padding: 0 8px;
+      font-size: 11px;
     }
   }
 </style>
@@ -139,20 +212,50 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
     };
   }
 
-  var ck = document.getElementById("clock");
+  // Mobile menu toggle
+  var menuBtn = document.getElementById("menu-toggle");
+  var mobileNav = document.getElementById("mobile-nav");
+  if (menuBtn && mobileNav) {
+    menuBtn.onclick = function () {
+      var isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
+      var nextState = !isExpanded;
+      menuBtn.setAttribute("aria-expanded", String(nextState));
+      mobileNav.style.display = nextState ? "block" : "none";
+      menuBtn.textContent = nextState ? "[ X ]" : "// MENU";
+    };
+
+    // Close menu on link click
+    var mLinks = mobileNav.querySelectorAll("a");
+    for (var i = 0; i < mLinks.length; i++) {
+      mLinks[i].addEventListener("click", function () {
+        menuBtn.setAttribute("aria-expanded", "false");
+        mobileNav.style.display = "none";
+        menuBtn.textContent = "// MENU";
+      });
+    }
+  }
+
   function tick() {
+    var c = document.getElementById("clock");
+    if (!c) return;
     try {
-      if (ck) {
-        ck.textContent = "WIB " + new Intl.DateTimeFormat("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-          timeZone: "Asia/Jakarta"
-        }).format(new Date());
-      }
-    } catch (e) {}
+      var f = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+      c.textContent = "WIB " + f.format(new Date());
+    } catch (e) {
+      var d = new Date();
+      var utc = d.getTime() + d.getTimezoneOffset() * 60000;
+      var wib = new Date(utc + 7 * 3600000);
+      var hh = String(wib.getHours()).padStart(2, "0");
+      var mm = String(wib.getMinutes()).padStart(2, "0");
+      c.textContent = "WIB " + hh + ":" + mm;
+    }
   }
   tick();
-  setInterval(tick, 15000);
+  setInterval(tick, 30000);
 })();
 </script>

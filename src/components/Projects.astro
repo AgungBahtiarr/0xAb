@@ -62,8 +62,17 @@ const total = String(projects.length).padStart(2, '0');
   .proj p {
     max-width: 64ch;
     margin-top: 8px;
+    line-height: 24px;
+    overflow-wrap: break-word;
   }
   .proj .t {
     margin-top: 8px;
+  }
+  @media (max-width: 640px) {
+    .proj {
+      grid-template-columns: 1fr;
+      gap: 6px 0;
+      padding: 20px 0;
+    }
   }
 </style>

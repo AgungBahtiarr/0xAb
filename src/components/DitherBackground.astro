@@ -83,7 +83,7 @@
     }
     ox.putImageData(img, 0, 0);
     cx.clearRect(0, 0, W, H);
-    cx.globalAlpha = 0.2;
+    cx.globalAlpha = (W < 640) ? 0.09 : 0.2;
     cx.drawImage(off, 0, 0, gw, gh, 0, 0, gw * CS, gh * CS);
   }
 

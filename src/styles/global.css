@@ -47,6 +47,8 @@
 html {
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 64px);
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 * {
@@ -59,6 +61,9 @@ body {
   color: var(--ink);
   font: 400 14px/24px "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 body::before {
@@ -93,10 +98,27 @@ a:hover {
   color: var(--paper);
 }
 
-.wrap {
+.wrap, .container {
+  width: 100%;
   max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 24px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
+}
+
+@media (max-width: 640px) {
+  .wrap, .container {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+}
+
+@media (max-width: 360px) {
+  .wrap, .container {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
 }
 
 .mute {
@@ -111,10 +133,14 @@ a:hover {
 
 .row {
   display: grid;
-  grid-template-columns: 192px 1fr;
+  grid-template-columns: minmax(0, 192px) minmax(0, 1fr);
   gap: 24px;
   border-top: 1px solid var(--line);
-  padding: 48px 0;
+  padding-block: 48px;
+}
+
+.row > * {
+  min-width: 0;
 }
 
 .row > aside {
@@ -125,11 +151,23 @@ a:hover {
 
 @media (max-width: 760px) {
   .row {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding-block: 28px;
   }
   .row > aside {
     position: static;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    padding-block: 24px;
   }
 }
 
@@ -139,6 +177,8 @@ a:hover {
   gap: 0 24px;
   border-top: 1px solid var(--line);
   padding: 8px 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .kv:first-of-type {
@@ -153,6 +193,8 @@ a:hover {
 @media (max-width: 760px) {
   .kv {
     grid-template-columns: 1fr;
+    gap: 4px 0;
+    padding: 10px 0;
   }
 }
 

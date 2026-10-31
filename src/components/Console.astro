@@ -36,7 +36,8 @@ const projectTitles = sortedProjects.map(p => p.data.title).join('\n');
     >
       <div class="bar cap">
         <span>tty1</span>
-        <span>{t('console.hint')}</span>
+        <span class="desktop-hint">{t('console.hint')}</span>
+        <span class="mobile-hint">// type help</span>
       </div>
       <div id="out" role="log" aria-live="polite">{t('console.welcome')}
 </div>
@@ -59,12 +60,19 @@ const projectTitles = sortedProjects.map(p => p.data.title).join('\n');
   .term {
     border: 1px solid var(--line);
     cursor: text;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
   }
   .term .bar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid var(--line);
     padding: 4px 16px;
+    gap: 8px;
+    min-width: 0;
   }
   #out {
     height: 320px;
@@ -72,17 +80,23 @@ const projectTitles = sortedProjects.map(p => p.data.title).join('\n');
     padding: 16px;
     white-space: pre-wrap;
     word-break: break-word;
+    overflow-wrap: anywhere;
     font-family: inherit;
+    line-height: 22px;
   }
   .in {
     display: flex;
+    align-items: center;
     gap: 8px;
     border-top: 1px solid var(--line);
     padding: 8px 16px;
+    min-width: 0;
+    max-width: 100%;
   }
   .in input {
     flex: 1;
     min-width: 0;
+    width: 100%;
     background: none;
     border: 0;
     color: inherit;
@@ -91,6 +105,34 @@ const projectTitles = sortedProjects.map(p => p.data.title).join('\n');
   }
   .in:focus-within {
     background: color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+  .mobile-hint {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .desktop-hint {
+      display: none;
+    }
+    .mobile-hint {
+      display: inline;
+      font-size: 11px;
+    }
+    #out {
+      height: 180px;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 20px;
+    }
+    .term .bar {
+      padding: 4px 12px;
+      font-size: 11px;
+    }
+    .in {
+      padding: 8px 12px;
+    }
+    .in input {
+      font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+    }
   }
 </style>
 
