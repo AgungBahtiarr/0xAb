@@ -13,7 +13,8 @@ if (!profileEntry) {
 const profile = profileEntry?.data;
 
 const allProjects = await getCollection('projects');
-const sortedProjects = allProjects.sort((a, b) => a.data.order - b.data.order);
+const langProjects = allProjects.filter(p => p.id.startsWith(`${lang}/`));
+const sortedProjects = (langProjects.length > 0 ? langProjects : allProjects.filter(p => p.id.startsWith('en/'))).sort((a, b) => a.data.order - b.data.order);
 
 const projectTitles = sortedProjects.map(p => p.data.title).join('\n');
 ---
@@ -22,8 +23,8 @@ const projectTitles = sortedProjects.map(p => p.data.title).join('\n');
   <aside><span class="cap">{t('console.aside')}</span></aside>
   <div>
     <h2>{t('console.heading')}</h2>
-    <div 
-      class="term" 
+    <div
+      class="term"
       id="term"
       data-name={profile?.name || "Agung Bahtiar"}
       data-role={profile?.role || "Software Engineer"}

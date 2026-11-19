@@ -6,7 +6,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const allProjects = await getCollection('projects');
-const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
+const langProjects = allProjects.filter(p => p.id.startsWith(`${lang}/`));
+const fallbackProjects = langProjects.length > 0 ? langProjects : allProjects.filter(p => p.id.startsWith('en/'));
+const projects = (fallbackProjects.length > 0 ? fallbackProjects : allProjects).sort((a, b) => a.data.order - b.data.order);
 const total = String(projects.length).padStart(2, '0');
 
 const artifacts: Record<string, string> = {
@@ -23,7 +25,7 @@ const artifacts: Record<string, string> = {
     <h2>{t('projects.heading')}</h2>
     {projects.map((project, index) => {
       const idx = String(index + 1).padStart(2, '0');
-      const key = project.id.replace(/\.md$/, '');
+      const key = project.id.replace(/^(en|id)\//, '').replace(/\.md$/, '');
       const artifact = artifacts[key];
       return (
         <article class="proj">
@@ -114,7 +116,7 @@ const artifacts: Record<string, string> = {
     .proj {
       grid-template-columns: minmax(0, 1fr);
       gap: 6px 0;
-      padding: 20px 0;
+      padding: 16px 0;
     }
     .proj-artifact {
       padding: 10px 12px;
