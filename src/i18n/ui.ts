@@ -22,18 +22,18 @@ export const ui = {
     'hero.ctaPrimary': 'Contact for projects',
     'hero.ctaSecondary': 'See selected projects',
     'hero.readsAria': 'Core capabilities',
-    'hero.reads.uptime': '99.9% uptime target across production Linux hosts',
-    'hero.reads.languages': 'Go, TypeScript, JavaScript, and Python backends',
-    'hero.reads.clouds': 'AWS, GCP, and DigitalOcean infrastructure',
+    'hero.reads.uptime': 'L2/L3 routing & NOC operations on MikroTik, Huawei & Juniper',
+    'hero.reads.languages': 'Svelte, Astro, Hono, PHP, Python & Native Shell (NSH)',
+    'hero.reads.clouds': 'Debian (bare-metal & Proxmox), Docker & PostgreSQL',
 
     'about.aside': 'About',
-    'about.heading': 'Engineering and administration',
+    'about.heading': 'Software and network engineering',
 
     'expertise.aside': 'Expertise',
     'expertise.heading': 'Two disciplines, one stack',
 
     'projects.aside': 'Selected projects',
-    'projects.heading': 'Four things I built',
+    'projects.heading': 'Five things I built',
     'projects.github': 'GitHub',
 
     'console.aside': 'Console',
@@ -43,14 +43,14 @@ export const ui = {
     'console.inputAria': 'Command',
 
     'contact.aside': 'Contact',
-    'contact.heading': 'Have a server to automate or an API to scale?',
-    'contact.desc': "I’m open to software pipelines, API scaling, system setups and DevOps automation. Tell me what you’re building and I’ll reply with questions.",
+    'contact.heading': 'Web systems, network automation, and ISP tooling',
+    'contact.desc': "Available for web applications, MikroTik-integrated billing, network monitoring, and Debian or Docker infrastructure.",
     'contact.email': 'Email',
     'contact.linkedin': 'LinkedIn',
     'contact.github': 'GitHub',
     'contact.twitter': 'X',
     'contact.location': 'Location',
-    'contact.locationVal': 'Indonesia, UTC+7',
+    'contact.locationVal': 'Banyuwangi, Indonesia (UTC+7)',
     'contact.availability': 'Availability',
     'contact.availabilityVal': 'Remote contracts and roles',
 
@@ -79,18 +79,18 @@ export const ui = {
     'hero.ctaPrimary': 'Hubungi untuk proyek',
     'hero.ctaSecondary': 'Lihat proyek pilihan',
     'hero.readsAria': 'Kapabilitas utama',
-    'hero.reads.uptime': 'Target uptime 99.9% di server Linux produksi',
-    'hero.reads.languages': 'Backend dengan Go, TypeScript, JavaScript, dan Python',
-    'hero.reads.clouds': 'Infrastruktur di AWS, GCP, dan DigitalOcean',
+    'hero.reads.uptime': 'Operasional NOC & routing L2/L3 di MikroTik, Huawei & Juniper',
+    'hero.reads.languages': 'Svelte, Astro, Hono, PHP, Python & Native Shell (NSH)',
+    'hero.reads.clouds': 'Debian (bare-metal & Proxmox), Docker & PostgreSQL',
 
     'about.aside': 'Tentang',
-    'about.heading': 'Rekayasa dan administrasi',
+    'about.heading': 'Rekayasa perangkat lunak & jaringan',
 
     'expertise.aside': 'Keahlian',
     'expertise.heading': 'Dua disiplin, satu stack',
 
     'projects.aside': 'Proyek pilihan',
-    'projects.heading': 'Empat hal yang saya bangun',
+    'projects.heading': 'Lima hal yang saya bangun',
     'projects.github': 'GitHub',
 
     'console.aside': 'Konsol',
@@ -100,14 +100,14 @@ export const ui = {
     'console.inputAria': 'Perintah',
 
     'contact.aside': 'Kontak',
-    'contact.heading': 'Punya server untuk diotomasi atau API untuk diskalakan?',
-    'contact.desc': 'Saya terbuka untuk pipeline perangkat lunak, penskalaan API, pengaturan sistem, dan otomasi DevOps. Ceritakan apa yang Anda bangun dan saya akan meresponsnya.',
+    'contact.heading': 'Sistem web, otomasi jaringan, dan tooling ISP',
+    'contact.desc': 'Terbuka untuk pembuatan aplikasi web, billing terintegrasi MikroTik, monitoring jaringan otomatis, serta infrastruktur Debian dan Docker.',
     'contact.email': 'Email',
     'contact.linkedin': 'LinkedIn',
     'contact.github': 'GitHub',
     'contact.twitter': 'X',
     'contact.location': 'Lokasi',
-    'contact.locationVal': 'Indonesia, UTC+7',
+    'contact.locationVal': 'Banyuwangi, Indonesia (UTC+7)',
     'contact.availability': 'Ketersediaan',
     'contact.availabilityVal': 'Kontrak dan posisi remote',
 

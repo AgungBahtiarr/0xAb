@@ -5,27 +5,23 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const items = lang === 'id' ? [
-  { dt: 'Bahasa Pemrograman', dd: 'Go, TypeScript, JavaScript, Python' },
-  { dt: 'Kerangka Kerja', dd: 'Node.js, Astro, Express, Fastify' },
-  { dt: 'Basis Data', dd: 'PostgreSQL, Redis, MongoDB, SQLite' },
-  { dt: 'API', dd: 'REST, gRPC, WebSockets' },
-  { dt: 'Sistem Operasi', dd: 'Linux: Ubuntu, Debian, RHEL' },
-  { dt: 'Kontainer', dd: 'Docker dan Compose, Kubernetes (K3s)' },
-  { dt: 'Server Web', dd: 'Nginx, Caddy, HAProxy' },
-  { dt: 'CI/CD', dd: 'GitHub Actions, GitLab CI' },
-  { dt: 'Hardening', dd: 'Kunci SSH, UFW, fail2ban, SSL dengan Certbot' },
-  { dt: 'Otomatisasi', dd: 'Skrip Bash, cron' },
+  { dt: 'Bahasa Pemrograman', dd: 'JavaScript, TypeScript, PHP, Python' },
+  { dt: 'Frontend & Native', dd: 'Svelte, Astro, Native Shell (NSH)' },
+  { dt: 'Backend & API', dd: 'Hono, Node.js, REST API, integrasi MikroTik' },
+  { dt: 'Basis Data', dd: 'PostgreSQL (utama), MySQL, SQLite' },
+  { dt: 'Perangkat Jaringan', dd: 'MikroTik, Huawei, Juniper (routing Layer 2 & Layer 3)' },
+  { dt: 'Server & Virtualisasi', dd: 'Debian (bare-metal & Proxmox), DNS, Web Server' },
+  { dt: 'Kontainer & Deploy', dd: 'Docker, Docker Compose, Nginx' },
+  { dt: 'Otomatisasi & ML', dd: 'Alert jaringan otomatis, model ML pemilihan jalur L2' },
 ] : [
-  { dt: 'Languages', dd: 'Go, TypeScript, JavaScript, Python' },
-  { dt: 'Frameworks', dd: 'Node.js, Astro, Express, Fastify' },
-  { dt: 'Data', dd: 'PostgreSQL, Redis, MongoDB, SQLite' },
-  { dt: 'APIs', dd: 'REST, gRPC, WebSockets' },
-  { dt: 'Operating systems', dd: 'Linux: Ubuntu, Debian, RHEL' },
-  { dt: 'Containers', dd: 'Docker and Compose, Kubernetes (K3s)' },
-  { dt: 'Web servers', dd: 'Nginx, Caddy, HAProxy' },
-  { dt: 'CI/CD', dd: 'GitHub Actions, GitLab CI' },
-  { dt: 'Hardening', dd: 'SSH keys, UFW, fail2ban, SSL with Certbot' },
-  { dt: 'Automation', dd: 'Bash scripting, cron' },
+  { dt: 'Languages', dd: 'JavaScript, TypeScript, PHP, Python' },
+  { dt: 'Frontend & Native', dd: 'Svelte, Astro, Native Shell (NSH)' },
+  { dt: 'Backend & APIs', dd: 'Hono, Node.js, REST APIs, MikroTik integration' },
+  { dt: 'Databases', dd: 'PostgreSQL (primary), MySQL, SQLite' },
+  { dt: 'Networking', dd: 'MikroTik, Huawei, Juniper (Layer 2 & Layer 3 routing)' },
+  { dt: 'Servers & Virtualization', dd: 'Debian (bare-metal & Proxmox), DNS, Web Servers' },
+  { dt: 'Containers & Deploy', dd: 'Docker, Docker Compose, Nginx' },
+  { dt: 'Automation & ML', dd: 'Automated network alerts, ML L2 redundant pathing' },
 ];
 ---
 

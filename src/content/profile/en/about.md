@@ -1,26 +1,26 @@
 ---
 name: "Agung Bahtiar"
 role: "Software Engineer"
-subRole: "System Admin"
-tagline: "Building fast Go and Node.js backend systems, automated Linux servers, and clean web applications across AWS, GCP, and DigitalOcean."
+subRole: "Network Engineer"
+tagline: "Software & network engineer in Banyuwangi. Building Svelte, Astro, and Hono apps alongside L2/L3 routing on MikroTik, Huawei, and Juniper."
 availability: "SYSTEMS_ACTIVE // OPEN FOR PROJECT"
-location: "Indonesia // GMT+7"
+location: "Banyuwangi, Indonesia // GMT+7"
 email: "agungbahtiar@laros.ae"
 github: "https://github.com/AgungBahtiarr"
 linkedin: "https://www.linkedin.com/in/0xab/"
 twitter: "https://x.com/agungberkah12"
 stats:
-  - title: "Performance First"
-    description: "Writing lightweight backend APIs with minimal memory footprint and fast execution times."
-  - title: "99.9% Uptime"
-    description: "Hardening Linux systems, configuring firewalls, load balancing, and monitoring server health."
-  - title: "Automation"
-    description: "Replacing repetitive tasks with custom scripts, automating CI/CD build steps, and server deployments."
-  - title: "Modern Stack"
-    description: "Utilizing industry-standard tools like Docker, Git, Astro, Go, and cloud platforms for modern builds."
+  - title: "Network & NOC"
+    description: "Managing Layer 2 & Layer 3 routing across MikroTik, Huawei, and Juniper to keep customer connectivity stable."
+  - title: "ISP & Business Systems"
+    description: "Building MikroTik-integrated partner billing, general ledger apps, automated network alerts, and native OLT tools."
+  - title: "Debian & Containers"
+    description: "Running hardened DNS and web services in Docker on bare-metal Debian hosts and Proxmox clusters."
+  - title: "Applied ML"
+    description: "Training Python machine learning models to select optimal redundant Layer 2 network paths."
 ---
-I am Agung Bahtiar, a software engineer and system administrator who builds low-latency APIs and maintains automated Linux server environments.
+I am Agung Bahtiar, a D4 TRPL graduate from Politeknik Negeri Banyuwangi. I work as a **Software Engineer** and **Network Engineer (NOC)** at an ISP in Banyuwangi.
 
-My journey started with a curiosity about how websites work under the hood, which quickly evolved into an obsession with backend architectures and server efficiency. I don't just write applications; I design, deploy, and maintain the environments they run on.
+On the network side, I manage Layer 2 and Layer 3 routing across **MikroTik**, **Huawei**, and **Juniper** to keep customer links stable. I also run core DNS and web services on **Debian** (bare-metal and **Proxmox**) inside **Docker**.
 
-Whether it is optimizing database queries in **Go** or **Node.js**, setting up secure **Nginx** reverse proxies, orchestrating **Docker** containers, or debugging network issues on a production Linux server, I focus on performance, security, and scalability.
+On the software side, I build full-stack web apps with **Svelte**, **Astro**, and **Hono**, backed by **PHP**, **Python**, and **PostgreSQL**. My work includes MikroTik-integrated ISP partner billing, company general ledger systems, automated network alerts, a machine learning model for L2 redundant routing, and native OLT tools with **Native Shell (NSH)**.
