@@ -9,7 +9,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: min(100vh, 880px);
+    height: 100%;
     z-index: 0;
     pointer-events: none;
     -webkit-mask-image: linear-gradient(#000 45%, transparent);
@@ -249,15 +249,19 @@
     mx += (tx - mx) * 0.08;
     my += (ty - my) * 0.08;
 
+    var isMobile = W < 640;
+    var patScale = isMobile ? 1.65 : 1;
+    var patBase = isMobile ? 0.35 : 0.15;
+
     for (var y = 0; y < gh; y++) {
-      var py = (y % TH) * TW;
+      var py = (Math.floor(y * patScale) % TH) * TW;
       for (var x = 0; x < gw; x++, i += 4) {
         var wave = 0.5 + 0.22 * Math.sin(x * 0.07 + t * 0.0007) + 0.2 * Math.sin(y * 0.09 - t * 0.0006 + Math.sin(x * 0.04 + t * 0.0003) * 2) + 0.1 * Math.sin((x + y) * 0.05 + t * 0.0004);
-        var tidx = py + (x % TW);
+        var tidx = py + (Math.floor(x * patScale) % TW);
         var pat = batikTile[tidx];
         var halo = haloTile[tidx];
         var u = x / gw;
-        var patFade = 0.15 + 0.85 * u * u;
+        var patFade = patBase + (1 - patBase) * u * u;
         var f = wave * 0.88 * (1 - halo * patFade * 0.42) + pat * patFade * 0.68;
         var dx = x - mx, dy = y - my;
         f *= 0.62 + 0.38 * u;
@@ -271,7 +275,7 @@
     }
     ox.putImageData(img, 0, 0);
     cx.clearRect(0, 0, W, H);
-    cx.globalAlpha = (W < 640) ? 0.09 : 0.2;
+    cx.globalAlpha = isMobile ? 0.15 : 0.2;
     cx.drawImage(off, 0, 0, gw, gh, 0, 0, gw * CS, gh * CS);
   }
 
