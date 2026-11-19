@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import DitherBackground from './DitherBackground.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const allProfiles = await getCollection('profile');
 let profileEntry = allProfiles.find(p => p.id === `${lang}/about`);
@@ -13,36 +14,31 @@ if (!profileEntry) {
 }
 const profile = profileEntry?.data;
 
-const name = profile?.name || "Agung Bahtiar";
-const roleAndSub = lang === 'id' 
-  ? "Rekayasa perangkat lunak dan administrasi sistem."
-  : "Software engineer and system administrator.";
+const roleHeading = lang === 'id'
+  ? "Software engineer dan admin sistem Linux"
+  : "Software engineer & Linux sysadmin";
 const tagline = profile?.tagline || (lang === 'id'
-  ? "Saya membangun sistem backend yang cepat, arsitektur server yang andal, dan aplikasi web yang bersih. Pekerjaan saya menjembatani kode yang skalabel dan infrastruktur Linux."
-  : "I build backend systems that are fast, automated server setups that stay up, and web applications that stay clean. My work sits between scalable code and robust Linux infrastructure.");
+  ? "Membangun sistem backend Go dan Node.js yang cepat, server Linux terotomatisasi, dan aplikasi web yang bersih di AWS, GCP, dan DigitalOcean."
+  : "Building fast Go and Node.js backend systems, automated Linux servers, and clean web applications across AWS, GCP, and DigitalOcean.");
 ---
 
 <div class="hero-wrapper">
   <DitherBackground />
   <section class="wrap hero">
-    <p class="status cap"><i></i>{t('hero.status')}</p>
-    <h1 id="name">{name}</h1>
-    <p class="sub">{roleAndSub}</p>
-    <p class="lead">{tagline}</p>
-    <div class="reads" aria-label={t('hero.readsAria')}>
-      <div>
-        <b><span data-to="99.9" data-dec="1">99.9</span>%</b>
-        <span class="cap">{t('hero.reads.uptime')}</span>
-      </div>
-      <div>
-        <b><span data-to="4">4</span></b>
-        <span class="cap">{t('hero.reads.languages')}</span>
-      </div>
-      <div>
-        <b><span data-to="3">3</span></b>
-        <span class="cap">{t('hero.reads.clouds')}</span>
+    <div class="hero-main">
+      <p class="status cap"><i></i>{t('hero.status')}</p>
+      <h1 id="name">{roleHeading}</h1>
+      <p class="lead">{tagline}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={translatePath('#contact')}>{t('hero.ctaPrimary')}</a>
+        <a class="btn btn--secondary" href={translatePath('#projects')}>{t('hero.ctaSecondary')}</a>
       </div>
     </div>
+    <ul class="reads" aria-label={t('hero.readsAria')}>
+      <li>{t('hero.reads.uptime')}</li>
+      <li>{t('hero.reads.languages')}</li>
+      <li>{t('hero.reads.clouds')}</li>
+    </ul>
   </section>
 </div>
 
@@ -51,22 +47,29 @@ const tagline = profile?.tagline || (lang === 'id'
     position: relative;
   }
   .hero {
-    padding-top: 64px;
-    padding-bottom: 0;
+    min-height: calc(100svh - 57px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+    padding-top: 72px;
+    padding-bottom: 48px;
     position: relative;
     z-index: 1;
   }
   @media (max-width: 640px) {
     .hero {
-      padding-top: 40px;
-      padding-bottom: 0;
+      min-height: calc(100svh - 57px);
+      gap: 32px;
+      padding-top: 36px;
+      padding-bottom: 32px;
     }
   }
   .status {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .status i {
     width: 8px;
@@ -74,133 +77,61 @@ const tagline = profile?.tagline || (lang === 'id'
     border: 1px solid var(--ink);
     background: var(--ink);
     display: inline-block;
+    flex-shrink: 0;
   }
   h1 {
     font-weight: 500;
     letter-spacing: -0.03em;
-    font-size: clamp(24px, 7.5vw, 38px);
-    line-height: 1.15;
+    font-size: clamp(32px, 6vw, 68px);
+    line-height: 1.08;
+    max-width: 18ch;
     word-break: break-word;
   }
-  .sub {
-    font-size: 15px;
-    line-height: 24px;
-    margin-top: 12px;
-  }
   .lead {
-    max-width: 64ch;
-    margin-top: 18px;
-    color: var(--mute);
-    font-size: 14px;
-    line-height: 22px;
+    max-width: 60ch;
+    margin-top: 24px;
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 28px;
   }
-  @media (min-width: 640px) {
-    h1 {
-      font-size: 64px;
-      line-height: 72px;
-    }
-    .sub {
-      font-size: 20px;
-      line-height: 32px;
-      margin-top: 16px;
-    }
+  @media (max-width: 640px) {
     .lead {
-      font-size: 15px;
-      line-height: 24px;
-      margin-top: 24px;
-    }
-  }
-  @media (min-width: 960px) {
-    h1 {
-      font-size: 96px;
-      line-height: 104px;
+      font-size: 16px;
+      line-height: 26px;
+      margin-top: 16px;
     }
   }
   .reads {
+    list-style: none;
+    padding: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    margin-top: 56px;
     border-top: 1px solid var(--line);
   }
-  .reads div {
-    padding: 24px 16px 24px 0;
+  .reads li {
+    padding: 20px 16px 0 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--mute);
   }
-  .reads div + div {
+  .reads li + li {
     border-left: 1px solid var(--line);
     padding-left: 16px;
   }
-  .reads b {
-    display: block;
-    font-weight: 500;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -0.02em;
-  }
-  @media (min-width: 640px) {
-    .reads b {
-      font-size: 48px;
-      line-height: 56px;
-    }
-  }
-  @media (max-width: 640px) {
+  @media (max-width: 760px) {
     .reads {
       grid-template-columns: 1fr;
-      margin-top: 36px;
     }
-    .reads div {
-      padding: 14px 0;
+    .reads li {
+      padding: 12px 0;
       border-top: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
     }
-    .reads div:first-child {
+    .reads li:first-child {
       border-top: none;
     }
-    .reads div + div {
+    .reads li + li {
       border-left: none;
       padding-left: 0;
     }
-    .reads b {
-      font-size: 26px;
-      line-height: 32px;
-    }
-    .reads .cap {
-      font-size: 13px;
-      line-height: 18px;
-    }
   }
 </style>
-
-<script is:inline>
-(function () {
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  var h = document.getElementById("name");
-  if (h) {
-    var ws = h.textContent.trim().split(/\s+/);
-    h.setAttribute("aria-label", h.textContent);
-    h.textContent = "";
-    ws.forEach(function (w, i) {
-      var s = document.createElement("span");
-      s.className = "w";
-      s.style.setProperty("--i", i);
-      s.setAttribute("aria-hidden", "true");
-      s.textContent = w;
-      h.appendChild(s);
-      if (i < ws.length - 1) h.appendChild(document.createTextNode(" "));
-    });
-  }
-
-  document.querySelectorAll("[data-to]").forEach(function (el) {
-    var to = +el.dataset.to;
-    var d = +(el.dataset.dec || 0);
-    var t0 = performance.now();
-    (function f(n) {
-      var p = Math.min((n - t0) / 900, 1);
-      el.textContent = (to * (1 - Math.pow(1 - p, 3))).toFixed(d);
-      if (p < 1) requestAnimationFrame(f);
-    })(t0);
-  });
-})();
-</script>

@@ -46,7 +46,7 @@
 
 html {
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 64px);
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   overflow-x: hidden;
   max-width: 100%;
 }
@@ -59,7 +59,7 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font: 400 14px/24px "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font: 400 16px/26px "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   max-width: 100%;
@@ -121,13 +121,93 @@ a:hover {
   }
 }
 
+.skip-link {
+  position: fixed;
+  left: -9999px;
+  top: 8px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.skip-link:focus-visible {
+  left: 24px;
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 24px;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn--primary:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn--secondary:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .btn-row {
+    flex-direction: column;
+    margin-top: 24px;
+  }
+  .btn {
+    width: 100%;
+  }
+}
+
 .mute {
   color: var(--mute);
 }
 
 .cap {
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 13px;
+  line-height: 18px;
   color: var(--mute);
 }
 
@@ -144,8 +224,6 @@ a:hover {
 }
 
 .row > aside {
-  position: sticky;
-  top: calc(env(safe-area-inset-top, 0px) + 72px);
   align-self: start;
 }
 
@@ -156,10 +234,7 @@ a:hover {
     padding-block: 28px;
   }
   .row > aside {
-    position: static;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-size: 13px;
     color: var(--mute);
     display: block;
   }

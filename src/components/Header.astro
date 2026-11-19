@@ -12,6 +12,7 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
 
 <header>
   <div class="wrap header-bar">
+    <a class="skip-link" href="#top">{t('nav.skip')}</a>
     <a class="brand" href={translatePath('#top')}>Agung Bahtiar</a>
     
     <nav id="desktop-nav" aria-label="Sections">
@@ -31,19 +32,19 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
         <a href={idUrl} class={lang === 'id' ? 'active-lang' : 'mute'}>ID</a>
       </span>
       <button id="theme" type="button" aria-label={t('header.changePaper')}>Light</button>
-      <button id="menu-toggle" type="button" class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">// MENU</button>
+      <button id="menu-toggle" type="button" class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">Menu</button>
     </div>
   </div>
 
   <!-- Mobile Collapsible Menu -->
   <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" style="display: none;">
     <div class="wrap mobile-links">
-      <a href={translatePath('#about')} class="m-link">// 01 {t('nav.about')}</a>
-      <a href={translatePath('#expertise')} class="m-link">// 02 {t('nav.expertise')}</a>
-      <a href={translatePath('#projects')} class="m-link">// 03 {t('nav.projects')}</a>
-      <a href={translatePath('#console')} class="m-link">// 04 {t('nav.console')}</a>
-      <a href={translatePath('/blog')} class="m-link">// 05 {t('nav.blog')}</a>
-      <a href={translatePath('#contact')} class="m-link">// 06 {t('nav.contact')}</a>
+      <a href={translatePath('#about')} class="m-link">01 · {t('nav.about')}</a>
+      <a href={translatePath('#expertise')} class="m-link">02 · {t('nav.expertise')}</a>
+      <a href={translatePath('#projects')} class="m-link">03 · {t('nav.projects')}</a>
+      <a href={translatePath('#console')} class="m-link">04 · {t('nav.console')}</a>
+      <a href={translatePath('/blog')} class="m-link">05 · {t('nav.blog')}</a>
+      <a href={translatePath('#contact')} class="m-link">06 · {t('nav.contact')}</a>
     </div>
   </nav>
 </header>
@@ -62,23 +63,30 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    min-height: 48px;
+    min-height: 56px;
   }
   header .brand {
     font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: -0.01em;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
   #desktop-nav {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     margin-left: auto;
   }
   #desktop-nav a {
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 4px;
   }
   #desktop-nav a:hover {
     text-decoration: none;
@@ -86,7 +94,7 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
   .ctl {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     white-space: nowrap;
   }
   .lang-toggle {
@@ -96,6 +104,10 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
   }
   .lang-toggle a {
     text-decoration: none;
+    min-height: 44px;
+    padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
   }
   .lang-toggle a.active-lang {
     font-weight: 500;
@@ -106,11 +118,14 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
     color: inherit;
     background: none;
     border: 1px solid var(--line);
-    padding: 0 10px;
-    height: 30px;
+    padding: 0 12px;
+    min-height: 44px;
     cursor: pointer;
-    font-size: 12px;
-    line-height: 28px;
+    font-size: 13px;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: background 0.15s, color 0.15s;
   }
   button:hover {
@@ -120,9 +135,8 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
   
   .mobile-toggle {
     display: none;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.05em;
   }
   .mobile-nav {
     display: none;
@@ -136,11 +150,13 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
     padding-bottom: 12px;
   }
   .m-link {
-    display: block;
-    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 8px 0;
     border-bottom: 1px solid color-mix(in srgb, var(--line) 40%, transparent);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--ink);
     transition: padding-left 0.15s;
   }
@@ -178,11 +194,11 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
       gap: 8px;
     }
     header .brand {
-      font-size: 13px;
+      font-size: 14px;
     }
     button {
-      padding: 0 8px;
-      font-size: 11px;
+      padding: 0 10px;
+      font-size: 13px;
     }
   }
 </style>
@@ -221,7 +237,7 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
       var nextState = !isExpanded;
       menuBtn.setAttribute("aria-expanded", String(nextState));
       mobileNav.style.display = nextState ? "block" : "none";
-      menuBtn.textContent = nextState ? "[ X ]" : "// MENU";
+      menuBtn.textContent = nextState ? "Close" : "Menu";
     };
 
     // Close menu on link click
@@ -230,7 +246,7 @@ const idUrl = lang === 'id' ? currentPath : `/id${currentPath}`;
       mLinks[i].addEventListener("click", function () {
         menuBtn.setAttribute("aria-expanded", "false");
         mobileNav.style.display = "none";
-        menuBtn.textContent = "// MENU";
+        menuBtn.textContent = "Menu";
       });
     }
   }

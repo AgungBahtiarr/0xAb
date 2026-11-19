@@ -2,7 +2,7 @@
 name: "Agung Bahtiar"
 role: "Software Engineer"
 subRole: "System Admin"
-tagline: "Building high-performance backend systems, automated server architectures, and clean web applications. Specialized in bridging the gap between scalable code and robust Linux infrastructures."
+tagline: "Building fast Go and Node.js backend systems, automated Linux servers, and clean web applications across AWS, GCP, and DigitalOcean."
 availability: "SYSTEMS_ACTIVE // OPEN FOR PROJECT"
 location: "Indonesia // GMT+7"
 email: "agungbahtiar@laros.ae"
@@ -19,7 +19,7 @@ stats:
   - title: "Modern Stack"
     description: "Utilizing industry-standard tools like Docker, Git, Astro, Go, and cloud platforms for modern builds."
 ---
-I am Agung Bahtiar, a tech enthusiast who loves building robust code and managing stable, automated server infrastructures.
+I am Agung Bahtiar, a software engineer and system administrator who builds low-latency APIs and maintains automated Linux server environments.
 
 My journey started with a curiosity about how websites work under the hood, which quickly evolved into an obsession with backend architectures and server efficiency. I don't just write applications; I design, deploy, and maintain the environments they run on.
 
