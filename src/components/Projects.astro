@@ -8,6 +8,13 @@ const t = useTranslations(lang);
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => a.data.order - b.data.order);
 const total = String(projects.length).padStart(2, '0');
+
+const artifacts: Record<string, string> = {
+  '0xproxy': `TLS 1.3 -> 0xProxy -> Redis -> Upstream
+           |- p99: 1.8ms  |- SIGHUP reload`,
+  'kubewatch': `$ kubewatch --ns prod --mem 85%
+worker-02/api-7f8c mem 88% -> #ops`,
+};
 ---
 
 <section class="wrap row" id="projects">
@@ -16,18 +23,25 @@ const total = String(projects.length).padStart(2, '0');
     <h2>{t('projects.heading')}</h2>
     {projects.map((project, index) => {
       const idx = String(index + 1).padStart(2, '0');
+      const key = project.id.replace(/\.md$/, '');
+      const artifact = artifacts[key];
       return (
         <article class="proj">
           <span class="cap">{idx} / {total}</span>
           <div>
             <h3>{project.data.title}</h3>
             <p>{project.data.description}</p>
-            <p class="t cap">
-              {project.data.tags.join(', ')}.
+            {artifact && (
+              <pre class="proj-artifact" aria-label={`${project.data.title} architecture output`}><code>{artifact}</code></pre>
+            )}
+            <div class="proj-meta">
+              <span class="cap">{project.data.tags.join(', ')}.</span>
               {project.data.githubUrl && (
-                <> <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer">{t('projects.github')}</a></>
+                <a class="proj-link cap" href={project.data.githubUrl} target="_blank" rel="noopener noreferrer">
+                  {t('projects.github')} &rarr;
+                </a>
               )}
-            </p>
+            </div>
           </div>
         </article>
       );
@@ -45,10 +59,13 @@ const total = String(projects.length).padStart(2, '0');
   }
   .proj {
     display: grid;
-    grid-template-columns: 48px 1fr;
+    grid-template-columns: 56px minmax(0, 1fr);
     gap: 0 16px;
     border-top: 1px solid var(--line);
     padding: 24px 0;
+  }
+  .proj > * {
+    min-width: 0;
   }
   .proj:first-of-type {
     border-top: 0;
@@ -62,17 +79,45 @@ const total = String(projects.length).padStart(2, '0');
   .proj p {
     max-width: 64ch;
     margin-top: 8px;
-    line-height: 24px;
+    font-size: 16px;
+    line-height: 26px;
     overflow-wrap: break-word;
   }
-  .proj .t {
-    margin-top: 8px;
+  .proj-artifact {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
+    font-size: 13px;
+    line-height: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: min(64ch, 100%);
+    width: 100%;
+    color: var(--ink);
+  }
+  .proj-meta {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+  }
+  .proj-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 500;
+    color: var(--ink);
   }
   @media (max-width: 640px) {
     .proj {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 6px 0;
       padding: 20px 0;
+    }
+    .proj-artifact {
+      padding: 10px 12px;
     }
   }
 </style>

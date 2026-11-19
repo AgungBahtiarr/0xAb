@@ -3,7 +3,7 @@
 :root {
   --paper: #f6f6f5;
   --ink: #161616;
-  --mute: #6a6a66;
+  --mute: #595955;
   --line: rgba(22, 22, 22, 0.2);
   color-scheme: light;
   box-sizing: border-box;
@@ -14,7 +14,7 @@
 :root[data-theme="ivory"] {
   --paper: #f2ecdf;
   --ink: #2b2218;
-  --mute: #7a6d5c;
+  --mute: #65594a;
   --line: rgba(43, 34, 24, 0.22);
 }
 
@@ -47,7 +47,7 @@
 html {
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 64px);
   scroll-behavior: auto;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -61,7 +61,7 @@ body {
   color: var(--ink);
   font: 400 16px/26px "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   width: 100%;
 }
@@ -263,6 +263,20 @@ a:hover {
 
 .kv dt {
   color: var(--mute);
+  display: flex;
+  align-items: center;
+}
+
+.kv dd {
+  display: flex;
+  align-items: center;
+}
+
+.kv dd a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 0;
 }
 
 @media (max-width: 760px) {

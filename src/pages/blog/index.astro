@@ -22,9 +22,9 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.
   <main id="top">
     <section class="wrap row">
       <aside>
-        <span class="cap">// 0XAB LOGS</span>
-        <div class="mt-4">
-          <a href={translatePath('/')} class="cap">&larr; {t('blog.backToPortfolio')}</a>
+        <span class="cap">Logs</span>
+        <div class="mt-2">
+          <a href={translatePath('/')} class="cap blog-back-link">&larr; {t('blog.backToPortfolio')}</a>
         </div>
       </aside>
 
@@ -119,7 +119,11 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.
     align-items: center;
     gap: 12px;
   }
+  .blog-back-link,
   .read-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font-weight: 500;
   }
   @media (max-width: 640px) {
