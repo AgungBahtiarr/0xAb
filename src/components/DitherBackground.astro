@@ -1,5 +1,5 @@
 ---
-// DitherBackground.astro - Isolated Bayer 4x4 ordered dither background canvas
+// DitherBackground.astro - Isolated Bayer 4x4 ordered dither background canvas with Batik Gajah Oling motif
 ---
 <canvas id="lines" aria-hidden="true"></canvas>
 
@@ -28,6 +28,187 @@
   var img = null, tx = 0, ty = 0, mx = 0, my = 0;
   var B = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
   var vis = true, raf = 0, t0 = performance.now();
+
+  // Seamless half-drop tileable Batik Gajah Oling (Banyuwangi) intensity field
+  var TW = 180, TH = 120;
+  var batikTile = new Float32Array(TW * TH);
+  var haloTile = new Float32Array(TW * TH);
+
+  function buildGajahOlingTile() {
+    var tc = document.createElement("canvas");
+    tc.width = TW;
+    tc.height = TH;
+    var tx2 = tc.getContext("2d");
+    if (!tx2) return;
+
+    function drawMotif(cx0, cy0, tilt, haloOnly) {
+      tx2.save();
+      tx2.translate(cx0, cy0);
+      tx2.rotate(tilt || -0.18);
+      tx2.scale(-1, -1);
+
+      function traceGajahOling() {
+        tx2.beginPath();
+        tx2.moveTo(2, -16);
+        tx2.bezierCurveTo(14, -16, 18, -36, 2, -41);
+        tx2.bezierCurveTo(-16, -46, -28, -28, -26, -6);
+        tx2.bezierCurveTo(-24, 15, -12, 34, 8, 37);
+        tx2.bezierCurveTo(21, 39, 28, 29, 22, 19);
+        tx2.bezierCurveTo(18, 13, 10, 15, 11, 22);
+        tx2.bezierCurveTo(12, 26, 6, 27, 1, 22);
+        tx2.bezierCurveTo(-9, 13, -12, -2, -8, -14);
+        tx2.bezierCurveTo(-5, -22, 5, -22, 2, -16);
+        tx2.closePath();
+      }
+
+      if (haloOnly) {
+        // Subtle negative-space moat around the motif so wave crests don't swallow it
+        tx2.lineJoin = "round";
+        tx2.lineCap = "round";
+        traceGajahOling();
+        tx2.strokeStyle = "rgba(255,255,255,0.9)";
+        tx2.lineWidth = 7.5;
+        tx2.stroke();
+        tx2.fillStyle = "rgba(255,255,255,0.9)";
+        tx2.fill();
+
+        var fxH = 11, fyH = -2;
+        for (var ah = -2; ah <= 2; ah++) {
+          tx2.save();
+          tx2.translate(fxH, fyH);
+          tx2.rotate(ah * 0.48);
+          tx2.beginPath();
+          tx2.ellipse(11, 0, 9.5, 4.5, 0, 0, Math.PI * 2);
+          tx2.fill();
+          tx2.restore();
+        }
+        tx2.restore();
+        return;
+      }
+
+      // 1. Main Gajah Oling silhouette
+      traceGajahOling();
+      tx2.lineJoin = "round";
+      tx2.lineCap = "round";
+      tx2.fillStyle = "rgba(255,255,255,0.96)";
+      tx2.fill();
+
+      // Characteristic scalloped lobes (sisik/gerigi) along the outer spine
+      var lobes = [
+        [-10, -40, 4.4],
+        [-21, -32, 5.0],
+        [-27, -20, 5.2],
+        [-28, -7, 5.2],
+        [-26, 6, 5.0],
+        [-20, 19, 4.7],
+        [-10, 30, 4.4]
+      ];
+      tx2.fillStyle = "rgba(255,255,255,0.92)";
+      for (var l = 0; l < lobes.length; l++) {
+        tx2.beginPath();
+        tx2.arc(lobes[l][0], lobes[l][1], lobes[l][2], 0, Math.PI * 2);
+        tx2.fill();
+      }
+
+      // Carved-out spiral eye ring & inner spine isen-isen
+      tx2.save();
+      tx2.globalCompositeOperation = "destination-out";
+      tx2.beginPath();
+      tx2.arc(0, -27, 5.5, 0, Math.PI * 2);
+      tx2.fillStyle = "rgba(0,0,0,0.92)";
+      tx2.fill();
+
+      // Dashed batik spine line inside the trunk
+      tx2.setLineDash([3.2, 2.8]);
+      tx2.strokeStyle = "rgba(0,0,0,0.72)";
+      tx2.lineWidth = 2.2;
+      tx2.beginPath();
+      tx2.moveTo(-16, -26);
+      tx2.bezierCurveTo(-20, -10, -18, 12, -2, 27);
+      tx2.stroke();
+      tx2.setLineDash([]);
+      tx2.restore();
+
+      // Center cecek dot inside the hollow spiral eye
+      tx2.beginPath();
+      tx2.arc(0, -27, 2.4, 0, Math.PI * 2);
+      tx2.fillStyle = "rgba(255,255,255,0.98)";
+      tx2.fill();
+
+      // 2. Prominent Kembang (5-petal Banyuwangi blossom) nestled in the inner C-curve
+      var fx = 11, fy = -2;
+      tx2.fillStyle = "rgba(255,255,255,0.88)";
+      for (var a = -2; a <= 2; a++) {
+        tx2.save();
+        tx2.translate(fx, fy);
+        tx2.rotate(a * 0.48);
+        tx2.beginPath();
+        tx2.ellipse(11, 0, 7.8, 3.0, 0, 0, Math.PI * 2);
+        tx2.fill();
+        tx2.restore();
+      }
+      tx2.beginPath();
+      tx2.arc(fx, fy, 3.8, 0, Math.PI * 2);
+      tx2.fillStyle = "rgba(255,255,255,0.98)";
+      tx2.fill();
+
+      // 3. Sulur (curling tendril) & cecek dots
+      tx2.strokeStyle = "rgba(255,255,255,0.78)";
+      tx2.lineWidth = 2.6;
+      tx2.beginPath();
+      tx2.moveTo(14, -34);
+      tx2.bezierCurveTo(26, -38, 32, -26, 24, -19);
+      tx2.bezierCurveTo(19, -15, 16, -21, 20, -24);
+      tx2.stroke();
+
+      tx2.beginPath();
+      tx2.moveTo(-22, 22);
+      tx2.bezierCurveTo(-32, 26, -35, 38, -26, 42);
+      tx2.stroke();
+
+      var dots = [
+        [27, -3], [29, 7], [25, 14],
+        [-32, -16], [-34, -3], [-31, 10],
+        [4, -46], [16, 42]
+      ];
+      tx2.fillStyle = "rgba(255,255,255,0.75)";
+      for (var j = 0; j < dots.length; j++) {
+        tx2.beginPath();
+        tx2.arc(dots[j][0], dots[j][1], 1.8, 0, Math.PI * 2);
+        tx2.fill();
+      }
+
+      tx2.restore();
+    }
+
+    var placements = [
+      [45, 60, -0.18],
+      [135, 0, -0.18],
+      [135, 120, -0.18],
+      [-45, 0, -0.18],
+      [-45, 120, -0.18]
+    ];
+
+    // Pass 1: Halo mask
+    for (var p = 0; p < placements.length; p++) {
+      drawMotif(placements[p][0], placements[p][1], placements[p][2], true);
+    }
+    var hdata = tx2.getImageData(0, 0, TW, TH).data;
+    for (var hidx = 0; hidx < TW * TH; hidx++) {
+      haloTile[hidx] = hdata[hidx * 4 + 3] / 255;
+    }
+
+    // Pass 2: Main Batik Gajah Oling mask
+    tx2.clearRect(0, 0, TW, TH);
+    for (var p2 = 0; p2 < placements.length; p2++) {
+      drawMotif(placements[p2][0], placements[p2][1], placements[p2][2], false);
+    }
+    var tdata = tx2.getImageData(0, 0, TW, TH).data;
+    for (var idx = 0; idx < TW * TH; idx++) {
+      batikTile[idx] = tdata[idx * 4 + 3] / 255;
+    }
+  }
+  buildGajahOlingTile();
 
   function size() {
     var r = cv.getBoundingClientRect();
@@ -69,10 +250,17 @@
     my += (ty - my) * 0.08;
 
     for (var y = 0; y < gh; y++) {
+      var py = (y % TH) * TW;
       for (var x = 0; x < gw; x++, i += 4) {
-        var f = 0.5 + 0.22 * Math.sin(x * 0.07 + t * 0.0007) + 0.2 * Math.sin(y * 0.09 - t * 0.0006 + Math.sin(x * 0.04 + t * 0.0003) * 2) + 0.1 * Math.sin((x + y) * 0.05 + t * 0.0004);
+        var wave = 0.5 + 0.22 * Math.sin(x * 0.07 + t * 0.0007) + 0.2 * Math.sin(y * 0.09 - t * 0.0006 + Math.sin(x * 0.04 + t * 0.0003) * 2) + 0.1 * Math.sin((x + y) * 0.05 + t * 0.0004);
+        var tidx = py + (x % TW);
+        var pat = batikTile[tidx];
+        var halo = haloTile[tidx];
+        var u = x / gw;
+        var patFade = 0.15 + 0.85 * u * u;
+        var f = wave * 0.88 * (1 - halo * patFade * 0.42) + pat * patFade * 0.68;
         var dx = x - mx, dy = y - my;
-        f *= 0.05 + 0.95 * (x / gw) * (x / gw);
+        f *= 0.62 + 0.38 * u;
         f += 0.3 * Math.exp(-(dx * dx + dy * dy) / 260);
         var on = f - 0.32 > B[(y & 3) * 4 + (x & 3)] / 16;
         d[i] = r;
